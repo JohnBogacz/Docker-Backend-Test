@@ -1,0 +1,21 @@
+FROM python:3.12-slim
+
+WORKDIR /code
+
+COPY ./requirements.txt ./
+RUN pip3 install --no-cache-dir -r requirements.txt
+COPY ./src ./src
+
+EXPOSE 8080
+
+CMD sleep infinity
+
+# Dev Instructions
+# (A) Download 'Dev Container' & 'Docker' extention in VSC
+# (B) Navigate terminal to ../backend directory
+# (C) docker build -t backend-dev-image -f Dockerfile.dev .
+# (D) docker run --name backend-dev -p 80:80 -d -v "$(pwd)":/code -it backend-dev-image
+# (E) Bottom corner of VSC (looks like ><) click on it and press 'attach to running container'
+# (F) Might need to select '/code' for your root location
+# (G) http://localhost:80
+# (H) docker kill backend-dev

@@ -1,0 +1,37 @@
+version: '1.0'
+
+services:
+  database:
+    container_name: Database
+    build:
+      context: .
+      dockerfile: Dockerfile.database
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword  # Add this line with your desired password
+    ports:
+      - "5432:5432"
+
+  python:
+    container_name: Python-dev
+    image: python:3.12-slim
+    build:
+      context: .
+      dockerfile: Dockerfile.database.dev
+    volumes:
+      - .:/db
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword  # Add this line with your desired password
+    depends_on:
+      - database
+
+# (A) Run Both Containers
+# (A.1) docker-compose build
+# (A.2) docker-compose up
+
+# (B) Connect Terminal to Containers
+# (B.1) docker exec -it Database /bin/bash
+# (B.2) docker exec -it Python-dev /bin/bash
